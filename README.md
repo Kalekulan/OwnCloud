@@ -11,7 +11,7 @@
 
 ##How to add a cronjob
 
-00 02 * * 0 bash -x SystemBackup.sh /out/put/path  
-00 04 * * 0 bash -x RotateSystemBackups.sh firstFileNamePattern secondFileNamePattern outputPath  
+00 02 * * 0 bash -x /usr/local/sbin/SystemBackup.sh /out/put/path  
+00 04 * * 0 bash -x /usr/local/sbin/RotateSystemBackups.sh firstFileNamePattern secondFileNamePattern outputPath  
 
 ##Usage
