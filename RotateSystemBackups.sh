@@ -32,7 +32,7 @@ filenamePattern=$1
 
 Execution $path $filenamePattern
 filenamePattern=$2
-filenamePattern="pimatic_dbbackup_20*"
+#filenamePattern="pimatic_dbbackup_20*"
 Execution $path $filenamePattern
 
 #path="/var/scripts/"
