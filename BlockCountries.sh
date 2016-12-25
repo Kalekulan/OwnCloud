@@ -9,9 +9,9 @@ path=$2
 allowedCountries=$3
 port=$4
 echo $allowedCountries
-for countryCode in $(echo $allowedCountries | sed "s/,/ /g")
+for countryCode in ${allowedCountries//,/ }
 do
-	wget http://www.ipdeny.com/ipblocks/data/countries/$countryCode -O $path   
+	wget http://www.ipdeny.com/ipblocks/data/countries/$countryCode -O $path
 done
 
 cd $path
@@ -20,13 +20,13 @@ cd $path
 
 for files in *.zone
 do
-        #echo $files
-        #while read line; do echo $line; done < $Files
-        while read line
-			if ["$action" = "add"]; do sudo ufw allow from $line to any port $port
-			else if ["$action" = "delete"];  do sudo ufw delete allow $line
-			fi
-		done < $files
+	#echo $files
+	#while read line; do echo $line; done < $Files
+	while read line
+		if ["$action" = "add"]; do sudo ufw allow from $line to any port $port
+		else if ["$action" = "delete"];  do sudo ufw delete allow $line
+		fi
+	done < $files
 done
 
 rm $path/*.zone
