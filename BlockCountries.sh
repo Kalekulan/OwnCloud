@@ -1,6 +1,6 @@
 #!/bin/bash
-#To delete rules, set action to -1
-#To add rules, set action to 1
+#To delete rules, set action to delete
+#To add rules, set action to add
 #The chosen path needs to be temporalily and should not include files that you don't want erased...
 #Inclusions can be added as a third argument as comma separated. They use the ISO standard. E.g. "se.zone,uk.zone"
 #Last argument is what port you want to use. Can be left empty
@@ -23,8 +23,8 @@ do
         #echo $files
         #while read line; do echo $line; done < $Files
         while read line
-			if [$action -eq 1]; do sudo ufw allow from $line to any port $port
-			else if [$action -eq -1];  do sudo ufw delete allow $line
+			if ["$action" = "add"]; do sudo ufw allow from $line to any port $port
+			else if ["$action" = "delete"];  do sudo ufw delete allow $line
 			fi
 		done < $files
 done
