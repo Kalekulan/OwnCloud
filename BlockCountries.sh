@@ -20,11 +20,12 @@ cd $path
 
 for files in *.zone
 do
-	#echo $files
+	echo $files
 	#while read line; do echo $line; done < $Files
 	while read line
-		if ["$action" = "add"]; do sudo ufw allow from $line to any port $port
-		else if ["$action" = "delete"];  do sudo ufw delete allow $line
+	echo $line
+		if [$action = "add"]; do sudo ufw allow from $line to any port $port
+		else if [$action = "delete"];  do sudo ufw delete allow $line
 		fi
 	done < $files
 done
