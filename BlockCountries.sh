@@ -9,12 +9,14 @@ path=$2
 allowedCountries=$3
 port=$4
 echo $allowedCountries
-for countryCode in ${allowedCountries//,/ }
-do
-	wget http://www.ipdeny.com/ipblocks/data/countries/$countryCode -O $path
-done
 
 cd $path
+for countryCode in ${allowedCountries//,/ }
+do
+	wget http://www.ipdeny.com/ipblocks/data/countries/$countryCode
+done
+
+
 
 #while read line; do sudo ufw insert 1 deny from $line to any; done < cdir-china.txt
 
