@@ -26,8 +26,8 @@ do
 	#while read line; do echo $line; done < $Files
 	while read line
 	echo $line
-		if [$action = "add"]; do sudo ufw allow from $line to any port $port
-		else if [$action = "delete"];  do sudo ufw delete allow $line
+		if [ $action = "add" ]; do sudo ufw allow from $line to any port $port
+		else if [ $action = "delete" ];  do sudo ufw delete allow $line
 		fi
 	done < $files
 done
