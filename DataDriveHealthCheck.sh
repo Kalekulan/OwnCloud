@@ -4,11 +4,11 @@
 Filesystem check script to determine health of USB device with fs type ext4
 Date: 2017-01-07
 
-Usage: fsck.sh <DEVICE> <OUTPUT FILE>
-Example: fschk.sh /dev/sda /mnt/data
+Usage: DataDriveHealthCheck.sh <DEVICE> <OUTPUT FILE>
+Example: DataDriveHealthCheck.sh /dev/sda /mnt/data
 Installation: 
-	wget https://raw.githubusercontent.com/Kalekulan/ownCloud/dev/fsck.sh
-	sudo chmod 700 fschk.sh
+	wget https://raw.githubusercontent.com/Kalekulan/ownCloud/dev/DataDriveHealthCheck.sh
+	sudo chmod 700 DataDriveHealthCheck.sh
 	
 Find the device by issuing "ls /dev/sd*"
 
