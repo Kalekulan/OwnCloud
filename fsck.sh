@@ -4,8 +4,8 @@
 Filesystem check script to determine health of USB device with fs type ext4
 Date: 2017-01-07
 
-Usage: fsck.sh <DEVICE>
-Example: fschk.sh /dev/sda
+Usage: fsck.sh <DEVICE> <OUTPUT FILE>
+Example: fschk.sh /dev/sda /mnt/data
 Installation: 
 	wget https://raw.githubusercontent.com/Kalekulan/ownCloud/dev/fsck.sh
 	sudo chmod 700 fschk.sh
@@ -15,7 +15,8 @@ Find the device by issuing "ls /dev/sd*"
 END
 
 device=$1
-configPath=$2
+#configPath=$2
+outputFile=$2
 
 if [ -z "$device" ]; then
     echo Device argument is null.
@@ -70,7 +71,9 @@ if [[ $fsckCode -eq 0 ]]; then
     echo File system is all clean!
 else
     echo Fsck failed with exitcode $fsckCode. Exiting...
-	SendMail $fsckCode $configPath
+	timestamp=`date --rfc-3339=seconds`
+	sudo -u www-data echo "$timestamp Fsck failed with exitcode $fsckCode. Exiting..." >> $outputFile 
+	#SendMail $fsckCode $configPath
     #notify somehow
 fi
 
@@ -86,7 +89,7 @@ exit
 
 
 
-SendMail() {
+SendMail() { #not used right now
 
 	error=$1
 	path=$2
