@@ -72,7 +72,7 @@ if [[ $fsckCode -eq 0 ]]; then
 	echo "$timestamp File system $device is all clean!" >> $outputFile
 else
     echo Fsck failed with exitcode $fsckCode. Exiting...
-	sudo -u www-data echo "$timestamp Fsck failed with exitcode $fsckCode. Exiting..." >> $outputFile 
+	sudo echo "$timestamp Fsck failed with exitcode $fsckCode. Exiting..." >> $outputFile 
 	#SendMail $fsckCode $configPath
     #notify somehow
 fi
