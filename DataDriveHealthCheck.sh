@@ -69,6 +69,7 @@ fsckCode=$?
 
 if [[ $fsckCode -eq 0 ]]; then
     echo File system is all clean!
+	echo "File system $device is all clean!" >> $outputFile
 else
     echo Fsck failed with exitcode $fsckCode. Exiting...
 	timestamp=`date --rfc-3339=seconds`
