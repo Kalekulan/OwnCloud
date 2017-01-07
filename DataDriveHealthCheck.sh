@@ -66,13 +66,12 @@ sudo fsck.ext4 -v $device
 fsckCode=$?
 
 #echo $fsCheck
-
+timestamp=`date --rfc-3339=seconds`
 if [[ $fsckCode -eq 0 ]]; then
     echo File system is all clean!
-	echo "File system $device is all clean!" >> $outputFile
+	echo "$timestamp File system $device is all clean!" >> $outputFile
 else
     echo Fsck failed with exitcode $fsckCode. Exiting...
-	timestamp=`date --rfc-3339=seconds`
 	sudo -u www-data echo "$timestamp Fsck failed with exitcode $fsckCode. Exiting..." >> $outputFile 
 	#SendMail $fsckCode $configPath
     #notify somehow
