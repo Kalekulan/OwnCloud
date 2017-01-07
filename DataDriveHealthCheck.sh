@@ -19,11 +19,18 @@ END
 
 device=$1
 #configPath=$2
-outputFile=/var/log/DataDriveHealthCheck.log
+logFile=/var/log/DataDriveHealthCheck.log
+printFile=/var/DataDriveHealthCheck/print.txt
+timestamp=`date --rfc-3339=seconds`
+echo END ****************************** >> $logFile
+echo >> $logFile
+echo $timestamp >> $logFile
 
 if [ -z "$device" ]; then
-    echo Device argument is null.
+    echo Device argument is null. | tee $logFile
     exit
+else 
+	echo Device: $device | tee $logFile
 fi
 #else
   #echo $String is NOT null.
@@ -31,61 +38,64 @@ fi
 
 ls $device > /dev/null 2>&1
 lsExitCode=$?
+echo lsExitCode=$lsExitCode >> $logFile
 
 if [[ $lsExitCode -eq 0 ]]; then
-    echo Device $device exists
+    echo Device $device exists | tee $logFile
 else
-    echo Device $device does not exist. Exiting...
+    echo Device $device does not exist. Exiting... | tee $logFile
     exit
 fi
 
 
-sudo findmnt -mn "$device"  > /dev/null 2>&1 #s flag = fstab only
+sudo findmnt -mn "$device" >> $logFile
 mountCode=$?
 
-echo Stopping apache2 server...
-sudo service apache2 stop > /dev/null 2>&1
+echo Stopping apache2 server... | tee $logFile
+sudo service apache2 stop >> $logFile
 
 if [[ $mntCode -eq 0 ]]; then
-    echo Device: $device is mounted. Unmounting now...
-    sudo umount $device > /dev/null 2>&1
+    echo Device: $device is mounted. Unmounting now... | tee $logFile
+    sudo umount $device >> $logFile
     unmountCode=$?
 
     if [[ $unmountCode -eq 0 ]]; then
-        echo umount went OK
+        echo umount went OK | tee $logFile
     else
-        echo umount failed with exitcode $unmountCode. Exiting...
+        echo umount failed with exitcode $unmountCode. Exiting... | tee $logFile
         exit
     fi
 else
-    echo Device: $device is not mounted.
+    echo Device: $device is not mounted. | tee $logFile
 fi
 
-echo Starting fsck...
+
+echo Starting fsck... | tee $logFile
 echo
 #fsCheck=$(sudo fsck.ext4 "$device")
-sudo fsck.ext4 -v $device
+echo $timestamp > $printFile
+sudo fsck.ext4 -v $device >> $logFile | tee $printFile
 # > /dev/null 2>&1
 fsckCode=$?
 
 #echo $fsCheck
-timestamp=`date --rfc-3339=seconds`
+
 if [[ $fsckCode -eq 0 ]]; then
-    echo File system is all clean!
-	echo "$timestamp File system $device is all clean!" >> $outputFile
+    echo File system is all clean! | tee $logFile
+	#echo "$timestamp File system $device is all clean!" | tee $logFile
 else
-    echo Fsck failed with exitcode $fsckCode. Exiting...
-	sudo echo "$timestamp Fsck failed with exitcode $fsckCode. Exiting..." >> $outputFile 
+    echo Fsck failed with exitcode $fsckCode. Exiting... | tee $logFile
+	#sudo echo "$timestamp Fsck failed with exitcode $fsckCode. Exiting..." | tee $logFile 
 	#SendMail $fsckCode $configPath
     #notify somehow
 fi
 
 echo
-echo Mounting everything in fstab...
-sudo mount -all  > /dev/null 2>&1
-echo Starting apache2 server again...
-sudo service apache2 start > /dev/null 2>&1
-echo Done
+echo Mounting everything in fstab... | tee $logFile
+sudo mount -all >> $logFile
+echo Starting apache2 server again... | tee $logFile
+sudo service apache2 start >> $logFile
+echo Done | tee $logFile
 exit
 
 
