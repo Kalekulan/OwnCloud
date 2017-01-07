@@ -7,11 +7,14 @@ Date: 2017-01-07
 Usage: DataDriveHealthCheck.sh <DEVICE>
 Example: DataDriveHealthCheck.sh /dev/sda
 Installation: 
-	wget https://raw.githubusercontent.com/Kalekulan/ownCloud/dev/DataDriveHealthCheck.sh
+	sudo wget https://raw.githubusercontent.com/Kalekulan/ownCloud/dev/DataDriveHealthCheck.sh
 	sudo chmod 700 DataDriveHealthCheck.sh
-	
+	sudo chown root:staff DataDriveHealthCheck.sh
 Find the device by issuing "ls /dev/sd*"
 
+Cronjob example:
+	Run every wednesday at 4AM
+	00 04 * * 3 sudo bash -x /usr/local/sbin/DataDriveHealthCheck.sh /dev/sda
 END
 
 device=$1
