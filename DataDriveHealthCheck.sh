@@ -74,7 +74,7 @@ echo Starting fsck... | tee $logFile
 echo
 #fsCheck=$(sudo fsck.ext4 "$device")
 echo $timestamp > $printFile
-sudo fsck.ext4 -v $device >> $logFile | tee $printFile
+sudo fsck.ext4 -vn $device >> $logFile | tee $printFile
 # > /dev/null 2>&1
 fsckCode=$?
 
