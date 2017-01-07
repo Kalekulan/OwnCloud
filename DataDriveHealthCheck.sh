@@ -22,7 +22,7 @@ device=$1
 logFile=/var/log/DataDriveHealthCheck.log
 printFile=/var/DataDriveHealthCheck/print.txt
 timestamp=`date --rfc-3339=seconds`
-echo END ****************************** >> $logFile
+echo "END ******************************" >> $logFile
 echo >> $logFile
 echo $timestamp >> $logFile
 
@@ -98,18 +98,10 @@ sudo service apache2 start >> $logFile
 echo Done | tee -a $logFile
 exit
 
-
-
-
-
 SendMail() { #not used right now
 
 	error=$1
 	path=$2
-	
-	#!/bin/bash
-
-
 
 	declare -a mailKeys=(
 						mail_from_address
