@@ -4,8 +4,8 @@
 Filesystem check script to determine health of USB device with fs type ext4
 Date: 2017-01-07
 
-Usage: DataDriveHealthCheck.sh <DEVICE> <OUTPUT FILE>
-Example: DataDriveHealthCheck.sh /dev/sda /mnt/data
+Usage: DataDriveHealthCheck.sh <DEVICE>
+Example: DataDriveHealthCheck.sh /dev/sda
 Installation: 
 	wget https://raw.githubusercontent.com/Kalekulan/ownCloud/dev/DataDriveHealthCheck.sh
 	sudo chmod 700 DataDriveHealthCheck.sh
@@ -16,7 +16,7 @@ END
 
 device=$1
 #configPath=$2
-outputFile=$2
+outputFile=/var/log/DataDriveHealthCheck.log
 
 if [ -z "$device" ]; then
     echo Device argument is null.
