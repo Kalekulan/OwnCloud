@@ -6,12 +6,16 @@ Date: 2017-01-07
 
 Usage: fsck.sh <DEVICE>
 Example: fschk.sh /dev/sda
-
+Installation: 
+	wget https://raw.githubusercontent.com/Kalekulan/ownCloud/dev/fsck.sh
+	sudo chmod 700 fschk.sh
+	
 Find the device by issuing "ls /dev/sd*"
 
 END
 
 device=$1
+configPath=$2
 
 if [ -z "$device" ]; then
     echo Device argument is null.
@@ -66,6 +70,7 @@ if [[ $fsckCode -eq 0 ]]; then
     echo File system is all clean!
 else
     echo Fsck failed with exitcode $fsckCode. Exiting...
+	SendMail $fsckCode $configPath
     #notify somehow
 fi
 
@@ -76,3 +81,51 @@ echo Starting apache2 server again...
 sudo service apache2 start > /dev/null 2>&1
 echo Done
 exit
+
+
+
+
+
+SendMail() {
+
+	error=$1
+	path=$2
+	
+	#!/bin/bash
+
+
+
+	declare -a mailKeys=(
+						mail_from_address
+						mail_smtpmode
+						mail_domain
+						mail_smtpauthtype
+						mail_smtpauth
+						mail_smtphost
+						mail_smtpport
+						mail_smtpname
+						mail_smtppassword
+						mail_smtpsecure
+						)
+	declare -a mailValues
+
+	#arrayLength=${#mailKeys[@]}
+	#i=0
+	index=0
+	#for ((i=0; i<=arrayLength; i++)); do
+	for i in "${mailKeys[@]}"; do
+		mailValues[$index]=$(grep ${mailKeys[$index]} $configPath) #find key and return line
+		mailValues[$index]=${mailValues[$index]##*>}  # retain the part after >
+		mailValues[$index]=${mailValues[$index]%*,}   # retain the part before the last comma ,
+		mailValues[$index]=${mailValues[$index]//"'"} # strip string from single quotation mark
+		echo ${mailValues[$index]}
+		((index++))
+	done
+
+	#NAME=${MYVAR%*,}  # retain the part before the colon
+	#NAME=${NAME##*>}  # retain the part after the last slash
+	#NAME=${NAME//"'"}
+	#echo $NAME
+	return true
+
+}
