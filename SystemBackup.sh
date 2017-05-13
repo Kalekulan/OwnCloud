@@ -33,11 +33,11 @@ fi
 service apache2 stop
 sleep 10
 #echo $drive is mounted... Executing rsync command.
-rsync -aAxXq --exclude-from=/var/rsync/rsyncExclusions.list /* $rsyncOutputPath/nextcloud_rsync_temp
+rsync -aAxXql --exclude-from=/var/rsync/rsyncExclusions.list /* $rsyncOutputPath/nextcloud_rsync_temp
 #echo Putting it in a tar...
 tar -cvpzf $rsyncOutputPath/nextcloud_backup_$date.tar.gz $rsyncOutputPath/nextcloud_rsync_temp
 #echo Syncing and backuping data directory...
-rsync -aAxXq /media/www/nextcloud/data/ $rsyncOutputPath/nextcloud_rsync_data
+rsync -aAxXql /media/www/nextcloud/data/ $rsyncOutputPath/nextcloud_rsync_data
 #echo Taking a dump of mysql database.
 mysqldump -AR --events > $rsyncOutputPath/nextcloud_dbbackup_$date.sql
 #echo Let me zip that for you...
