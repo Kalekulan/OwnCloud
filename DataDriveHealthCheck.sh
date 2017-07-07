@@ -32,9 +32,7 @@ if [ -z "$device" ]; then
 else
     echo Device: $device | tee -a $logFile
 fi
-#else
-#echo $String is NOT null.
-#fi     # $String is null.
+
 
 ls $device > /dev/null 2>&1
 lsExitCode = $?
@@ -58,7 +56,7 @@ if [[ $mntCode -eq 0 ]]; then
     echo Device: $device is mounted. Unmounting now... | tee -a $logFile
     sudo umount $device >> $logFile
     unmountCode = $?
-    
+
     if [[ $unmountCode -eq 0 ]]; then
         echo umount went OK | tee -a $logFile
     else
@@ -72,18 +70,13 @@ fi
 
 echo Starting fsck... | tee -a $logFile
 echo
-#fsCheck=$(sudo fsck.ext4 "$device")
 echo $timestamp > $printFile
 sudo fsck.ext4 -vn $device >> $printFile
-# > /dev/null 2>&1
 fsckCode = $?
 echo fsck exit code = $fsckCode | tee -a $logFile
 
-#echo $fsCheck
-
 if [[ $fsckCode -eq 0 ]]; then
     echo File system is all clean! | tee -a $logFile
-    #echo "$timestamp File system $device is all clean!" | tee -a $logFile
 else
     echo Fsck failed with exitcode $fsckCode. Exiting... | tee -a $logFile
     #sudo echo "$timestamp Fsck failed with exitcode $fsckCode. Exiting..." | tee -a $logFile
@@ -100,10 +93,10 @@ echo Done | tee -a $logFile
 exit
 
 SendMail() { #not used right now
-    
+
     error=$1
     path=$2
-    
+
     declare -a mailKeys=(
         mail_from_address
         mail_smtpmode
@@ -117,7 +110,7 @@ SendMail() { #not used right now
         mail_smtpsecure
     )
     declare -a mailValues
-    
+
     #arrayLength=${#mailKeys[@]}
     #i=0
     index=0
@@ -130,11 +123,11 @@ SendMail() { #not used right now
         echo ${mailValues[$index]}
         ((index++))
     done
-    
+
     #NAME=${MYVAR%*,}  # retain the part before the colon
     #NAME=${NAME##*>}  # retain the part after the last slash
     #NAME=${NAME//"'"}
     #echo $NAME
     return true
-    
+
 }
