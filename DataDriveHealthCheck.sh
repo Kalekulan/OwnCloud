@@ -17,11 +17,11 @@ Cronjob example:
 	00 04 * * 3 sudo bash -x /usr/local/sbin/DataDriveHealthCheck.sh /dev/sda
 END
 
-device = $1
+device=$1
 #configPath=$2
-logFile = /var/log/DataDriveHealthCheck.log
-printFile = /var/DataDriveHealthCheck/print.txt
-timestamp = `date --rfc-3339 = seconds`
+logFile=/var/log/DataDriveHealthCheck.log
+printFile=/var/DataDriveHealthCheck/print.txt
+timestamp=`date --rfc-3339 = seconds`
 echo "END ******************************" >> $logFile
 echo >> $logFile
 echo $timestamp >> $logFile
@@ -35,8 +35,8 @@ fi
 
 
 ls $device > /dev/null 2>&1
-lsExitCode = $?
-echo lsExitCode = $lsExitCode >> $logFile
+lsExitCode=$?
+echo lsExitCode=$lsExitCode >> $logFile
 
 if [[ $lsExitCode -eq 0 ]]; then
     echo Device $device exists | tee -a $logFile
@@ -47,7 +47,7 @@ fi
 
 
 sudo findmnt -mn "$device" >> $logFile
-mountCode = $?
+mountCode=$?
 
 echo Stopping apache2 server... | tee -a $logFile
 sudo service apache2 stop >> $logFile
@@ -55,7 +55,7 @@ sudo service apache2 stop >> $logFile
 if [[ $mntCode -eq 0 ]]; then
     echo Device: $device is mounted. Unmounting now... | tee -a $logFile
     sudo umount $device >> $logFile
-    unmountCode = $?
+    unmountCode=$?
 
     if [[ $unmountCode -eq 0 ]]; then
         echo umount went OK | tee -a $logFile
@@ -72,8 +72,8 @@ echo Starting fsck... | tee -a $logFile
 echo
 echo $timestamp > $printFile
 sudo fsck.ext4 -vn $device >> $printFile
-fsckCode = $?
-echo fsck exit code = $fsckCode | tee -a $logFile
+fsckCode=$?
+echo fsck exit code=$fsckCode | tee -a $logFile
 
 if [[ $fsckCode -eq 0 ]]; then
     echo File system is all clean! | tee -a $logFile

@@ -4,10 +4,10 @@
 #The chosen path needs to be temporalily and should not include files that you don't want erased...
 #Inclusions can be added as a third argument as comma separated. They use the ISO standard. E.g. "se.zone,uk.zone"
 #Last argument is what port you want to use. Can be left empty
-action = $1
-path = $2
-allowedCountries = $3
-port = $4
+action=$1
+path=$2
+allowedCountries=$3
+port=$4
 
 echo $allowedCountries
 for countryCode in ${allowedCountries//,/ }; do	wget http://www.ipdeny.com/ipblocks/data/countries/$countryCode -O $path$countryCode; done
@@ -17,10 +17,10 @@ do
 
 	while read line; do
 		#echo $line
-		if [ $action = "add" ]
+		if [ $action="add" ]
 		then
 			sudo ufw allow from $line to any port $port
-		elif [ $action = "delete" ]
+		elif [ $action="delete" ]
 		then
 			sudo ufw delete allow $line
 		fi
