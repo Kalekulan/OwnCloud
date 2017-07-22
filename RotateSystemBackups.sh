@@ -27,6 +27,10 @@ Delete() {
 
 path=$3
 filenamePattern=$1
+if [ -z "$path" ] || [ -z "$filenamePattern" ] || [ -z "$2" ]; then
+    echo Not all arguments were supplied
+    exit
+fi
 Delete $path $filenamePattern
 filenamePattern=$2
 Delete $path $filenamePattern

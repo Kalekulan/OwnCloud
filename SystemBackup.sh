@@ -7,6 +7,10 @@
 # password=secret
 
 rsyncOutputPath=$1
+if [[ -z $rsyncOutputPath ]]; then
+    echo No argument supplied
+    exit
+fi
 drive="STORAGE_ee7e0"
 date=$(date +\%Y\%m\%d)
 if ! mount | grep $drive; then

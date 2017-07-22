@@ -18,6 +18,10 @@ Cronjob example:
 END
 
 device=$1
+if [[ -z $device ]]; then
+    echo No argument supplied
+    exit
+fi
 #configPath=$2
 logFile=/var/log/DataDriveHealthCheck.log
 printFile=/var/DataDriveHealthCheck/print.txt
